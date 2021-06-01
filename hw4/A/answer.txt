@@ -1,0 +1,8 @@
+1. StringWrapper和AbstractWrapper的析构函数没有写成虚函数，在析构时部分成员不会被析构，导致内存泄漏，建议改成：虚函数。
+2. 继承方式默认是private继承，导致子类无法转换成基类，在传入子类引用转化为基类引用时出错，建议改成：public继承。
+3. IntegerWrapper类析构时没有释放指针，导致了内存泄漏。建议改成：构造函数中将指针释放。
+4. ChineseStringWrapper类的length函数的rawChars参数没有设立缺省值，导致主函数调用时出现参数不全的问题。建议改成：增加缺省值为true。
+5. AbstractWrapper构造时试图调用子类的type()函数，然而此时子类还未被构造，无法调用type()函数。建议改成：设立一个_type变量，在构造时传入确定，并以此确定uid。 
+6. StringWrapper类中的析构函数应该用delete []来释放ptr数组，否则会导致内存泄漏。 
+7. ChineseStringWrapper类的析构函数不应该再次释放ptr，因为ptr会在其父类的析构函数中释放，重复释放会导致错误。 
+

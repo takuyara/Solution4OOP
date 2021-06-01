@@ -1,0 +1,34 @@
+1. list是可以的，queue是不可以的。因为list有模板类中调用的begin、end、insert等方法，然而queue没有。所以前者可以正常运行，然而后者会产生编译错误。
+2. 
+只使用模板
+template <typename A, typename C>
+class Container{
+	//As original code.
+} ;
+
+template <typename A, typename C>
+void work(Container<A, C> *cont){
+	//As original code.
+}
+template <typename A, typename C>
+void work(const string &base){
+	if (base == "vector"){
+		auto cont = new Container<A, vector<A>>;
+		work(cont);
+		delete cont;
+	} else if (base == "multiset"){
+		auto cont = new Container<A, multiset<A>>;
+		work(cont);
+		delete cont;
+	}
+}
+只使用虚函数
+class BasicContainer{
+} ;
+class BasicContainerInt: public BasicContainer{
+} ;
+class BasicContainerDouble: public BasicContainer{
+} ;
+class ContainerVectorInt: public BasicContainerInt{
+} ;
+...
